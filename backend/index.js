@@ -1,12 +1,14 @@
-// backend/index.js
+const { ethers } = require('ethers');
+const dotenv = require('dotenv');
+dotenv.config();
 
-require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const { ethers } = require('ethers');
 const Deposit = require('./models/Deposit');
 const logger = require('./config/logger');
+
+const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
 
 const app = express();
 app.use(cors());
@@ -20,9 +22,6 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => logger.info('MongoDB connected'))
 .catch(err => logger.error('MongoDB connection error:', err));
 
-// Setup Ethereum Provider
-const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
-
 // Beacon Deposit Contract Address
 const BEACON_DEPOSIT_CONTRACT = process.env.BEACON_CONTRACT_ADDRESS;
 
@@ -32,7 +31,6 @@ const monitorDeposits = async () => {
     try {
       const tx = await provider.getTransaction(txHash);
       if (tx && tx.to && tx.to.toLowerCase() === BEACON_DEPOSIT_CONTRACT.toLowerCase()) {
-        // Fetch transaction receipt to get more details
         const receipt = await provider.getTransactionReceipt(txHash);
         if (receipt && receipt.status === 1) { // 1 means success
           const depositData = {
@@ -67,20 +65,16 @@ app.get('/api/deposits', async (req, res) => {
 });
 
 // Start Server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   logger.info(`Server running on port ${PORT}`);
 });
 
-
-// backend/index.js (Add this after setting up the provider)
-
+// Initialize Contract
 const contractABI = [
-  // Minimal ABI to listen to Deposit events
   "event Deposit(address indexed sender, uint256 amount, bytes pubkey)"
 ];
 
-// Initialize Contract
 const contract = new ethers.Contract(BEACON_DEPOSIT_CONTRACT, contractABI, provider);
 
 // Listen to Deposit Events
@@ -102,7 +96,6 @@ contract.on('Deposit', async (sender, amount, pubkey, event) => {
 });
 
 // Fetch Deposit by ID
-
 app.get('/api/deposits/:id', async (req, res) => {
   try {
     const deposit = await Deposit.findById(req.params.id);
@@ -115,7 +108,6 @@ app.get('/api/deposits/:id', async (req, res) => {
 });
 
 // Delete All Deposits
-
 app.delete('/api/deposits', async (req, res) => {
   try {
     await Deposit.deleteMany({});
@@ -126,6 +118,7 @@ app.delete('/api/deposits', async (req, res) => {
   }
 });
 
+// Global Error Handler
 app.use((err, req, res, next) => {
   logger.error(err.stack);
   res.status(500).json({ error: 'Something went wrong!' });

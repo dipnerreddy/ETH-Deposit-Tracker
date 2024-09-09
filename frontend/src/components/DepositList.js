@@ -1,13 +1,13 @@
 // frontend/src/components/DepositList.js
-import { ethers } from 'ethers';
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { ethers } from 'ethers';  // Correct import for ethers@5
 
 const DepositList = () => {
   const [deposits, setDeposits] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Function to fetch deposits from the backend
   const fetchDeposits = async () => {
     try {
       const res = await axios.get('http://localhost:5000/api/deposits');
@@ -19,10 +19,12 @@ const DepositList = () => {
     }
   };
 
+  // Fetch deposits when the component mounts
   useEffect(() => {
     fetchDeposits();
   }, []);
 
+  // If loading is true, display a loading message
   if (loading) return <p>Loading deposits...</p>;
 
   return (
@@ -48,7 +50,7 @@ const DepositList = () => {
               </td>
               <td>{deposit.blockNumber}</td>
               <td>{new Date(deposit.blockTimestamp * 1000).toLocaleString()}</td>
-              <td>{ethers.utils.formatEther(deposit.fee)}</td>
+              <td>{ethers.utils.formatEther(deposit.fee)}</td> {/* Corrected ethers.utils usage */}
               <td>{deposit.pubkey}</td>
             </tr>
           ))}
