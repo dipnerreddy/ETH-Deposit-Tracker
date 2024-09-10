@@ -132,10 +132,10 @@ Fetch all tracked deposits from the database.
   [
     {
       "_id": "60f85d5b8f98762f2c8b4567",
-      "blockNumber": 123456,
+      "blockNumber": 0x900C787FB3c82895637144A77e0C41dAeb3a8D99,
       "blockTimestamp": 1620918734,
-      "fee": "50000000000000000",
-      "hash": "0xabc123...",
+      "fee": "0.0002808855 ETH",
+      "hash": "0x1391be19259f10e01336a383217cf35344dd7aa157e95030f46235448ef5e5d6",
       "pubkey": "0xa102..."
     },
     ...
