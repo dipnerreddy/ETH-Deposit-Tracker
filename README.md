@@ -138,7 +138,6 @@ Fetch all tracked deposits from the database.
       "hash": "0x1391be19259f10e01336a383217cf35344dd7aa157e95030f46235448ef5e5d6",
       "pubkey": "0xa102..."
     },
-    ...
   ]
 
 ## Environment Variables
