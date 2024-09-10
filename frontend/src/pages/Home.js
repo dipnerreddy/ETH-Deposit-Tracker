@@ -2,11 +2,12 @@
 
 import React from 'react';
 import DepositList from '../components/DepositList';
+import { Container } from '@mui/material';
 
 const Home = () => (
-  <div style={{ padding: '2rem' }}>
+  <Container>
     <DepositList />
-  </div>
+  </Container>
 );
 
 export default Home;

@@ -1,16 +1,17 @@
 // frontend/src/components/DepositList.js
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { ethers } from 'ethers';  // Correct import for ethers@5
+import { ethers } from 'ethers';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress } from '@mui/material';
 
 const DepositList = () => {
   const [deposits, setDeposits] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Function to fetch deposits from the backend
   const fetchDeposits = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/deposits');
+      const res = await axios.get('http://localhost:5001/api/deposits');
       setDeposits(res.data);
       setLoading(false);
     } catch (error) {
@@ -19,60 +20,42 @@ const DepositList = () => {
     }
   };
 
-  // Fetch deposits when the component mounts
   useEffect(() => {
     fetchDeposits();
   }, []);
 
-  // If loading is true, display a loading message
-  if (loading) return <p>Loading deposits...</p>;
+  if (loading) return <CircularProgress />;
 
   return (
-    <div>
-      <h3>Recent Deposits</h3>
-      <table style={styles.table}>
-        <thead>
-          <tr>
-            <th>Transaction Hash</th>
-            <th>Block Number</th>
-            <th>Timestamp</th>
-            <th>Fee (ETH)</th>
-            <th>PubKey</th>
-          </tr>
-        </thead>
-        <tbody>
-          {deposits.map(deposit => (
-            <tr key={deposit._id}>
-              <td>
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Transaction Hash</TableCell>
+            <TableCell>Block Number</TableCell>
+            <TableCell>Timestamp</TableCell>
+            <TableCell>Fee (ETH)</TableCell>
+            <TableCell>PubKey</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {deposits.map((deposit) => (
+            <TableRow key={deposit._id}>
+              <TableCell>
                 <a href={`https://etherscan.io/tx/${deposit.hash}`} target="_blank" rel="noopener noreferrer">
                   {deposit.hash.substring(0, 10)}...
                 </a>
-              </td>
-              <td>{deposit.blockNumber}</td>
-              <td>{new Date(deposit.blockTimestamp * 1000).toLocaleString()}</td>
-              <td>{ethers.utils.formatEther(deposit.fee)}</td> {/* Corrected ethers.utils usage */}
-              <td>{deposit.pubkey}</td>
-            </tr>
+              </TableCell>
+              <TableCell>{deposit.blockNumber}</TableCell>
+              <TableCell>{new Date(deposit.blockTimestamp * 1000).toLocaleString()}</TableCell>
+              <TableCell>{ethers.utils.formatEther(deposit.fee)}</TableCell>
+              <TableCell>{deposit.pubkey}</TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
-    </div>
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
-};
-
-const styles = {
-  table: {
-    width: '100%',
-    borderCollapse: 'collapse',
-  },
-  th: {
-    border: '1px solid #ddd',
-    padding: '8px',
-  },
-  td: {
-    border: '1px solid #ddd',
-    padding: '8px',
-  },
 };
 
 export default DepositList;

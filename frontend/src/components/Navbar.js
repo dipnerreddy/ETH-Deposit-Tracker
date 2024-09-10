@@ -8,7 +8,7 @@ const Navbar = () => (
     <h2>ETH Deposit Tracker</h2>
     <div>
       <Link to="/" style={styles.link}>Home</Link>
-      {/* Add more links if needed */}
+      <Link to="/addDeposit" style={styles.link}>Add Deposit</Link>
     </div>
   </nav>
 );
