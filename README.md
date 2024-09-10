@@ -14,23 +14,25 @@ The **Ethereum Deposit Tracker** is a full-stack application built using the **M
 
 ## Project Structure
 
-```bash
-ethereum-deposit-tracker/
-├── backend/
-│   ├── config/           # Contains logger configurations
-│   ├── models/           # Mongoose models for Deposit schema
-│   ├── index.js          # Main backend entry point
-│   ├── package.json      # Backend dependencies and scripts
-├── frontend/
-│   ├── src/
-│   │   ├── components/   # Contains React components like Navbar, AddDeposit
-│   │   ├── pages/        # Contains page components like Home
-│   ├── App.js            # Main React App component
-│   ├── index.js          # Frontend entry point
-│   ├── package.json      # Frontend dependencies and scripts
-├── README.md             # Project documentation
-├── .env                  # Environment variables
-└── docker-compose.yml    # Docker setup (optional)
+    ```bash
+    ethereum-deposit-tracker/
+    ├── backend/
+    │   ├── config/           # Contains logger configurations
+    │   ├── models/           # Mongoose models for Deposit schema
+    │   ├── index.js          # Main backend entry point
+    │   ├── package.json      # Backend dependencies and scripts
+    ├── frontend/
+    │   ├── src/
+    │   │   ├── components/   # Contains React components like Navbar, AddDeposit
+    │   │   ├── pages/        # Contains page components like Home
+    │   ├── App.js            # Main React App component
+    │   ├── index.js          # Frontend entry point
+    │   ├── package.json      # Frontend dependencies and scripts
+    ├── README.md             # Project documentation
+    ├── .env                  # Environment variables
+    └── docker-compose.yml    # Docker setup (optional)
+
+---
 
 ## Installation and Setup
 
